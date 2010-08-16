@@ -3,3 +3,4 @@
 *#
 ruby-enterprise/
 tmp/
+.mysql_history
