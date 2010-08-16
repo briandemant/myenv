@@ -25,8 +25,8 @@ let g:SuperTabDefaultCompletionTypeDiscovery = [
 
 "Show the trailing whitespaces
 ""If tabs should be shown too: set listchars=tab:»-,trail:·
-set list
-set listchars=tab:\ \ ,trail:·
+"set list
+set listchars=tab:>\ ,eol:$
 set laststatus=2
 "set listchars=tab:»-,trail:·
 
@@ -41,11 +41,28 @@ set wmh=0
 
 set autoindent
 set smartindent
-set sw=4
+set sw=3
 set tabstop=3
-"set softtabstop=4
+set softtabstop=3
 set showmatch
 set incsearch
-"set encoding=iso8859-1
+set encoding=iso8859-1
 
 au BufNewFile,BufRead *.hx                     setf haxe
+
+if has("autocmd")
+	" Enable filetype detection
+	filetype plugin indent on
+	 
+	" Restore cursor position
+	autocmd BufReadPost *
+	  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+	  \   exe "normal! g`\"" |
+	  \ endif
+endif
+
+if &t_Co > 2 || has("gui_running")
+	" Enable syntax highlighting
+	syntax on
+endif
+

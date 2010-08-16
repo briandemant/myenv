@@ -20,7 +20,7 @@ function svn() {
 			# Thanks to Robin Speekenbrink for the hint to the -R
 			# switch of less, which should fix problems some of
 			# you might have with colorization.
-			${SVN} ${operation} "$@" --diff-cmd `which diff` -x "-u -w"|colordiff|less -R
+			${SVN} ${operation} "$@" --diff-cmd `which diff` -x "-wudbB"|colordiff|less -R
 		;;
 		"update"|"up")
 			# This snippet is taken from a blog post found on the net. My
