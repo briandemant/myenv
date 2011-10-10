@@ -10,7 +10,7 @@ echo "initials $initials"
 
 #### install vim config
 git clone http://github.com/briandemant/vim.git ~/.vim_brde
-tmp/vim/bootstrap.sh $initials
+~/.vim_brde/bootstrap.sh $initials
 cd ~/.vim_brde
 ./install_plugins
 cd $root
