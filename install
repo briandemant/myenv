@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+source $(cd $0/..;pwd)/lib/utils.sh
+
+requires git
+
+initials=${1-brde}
+echo "initials $initials"
+
+
