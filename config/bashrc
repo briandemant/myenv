@@ -1,2 +1,30 @@
 alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
 alias vi='vim'
+
+[[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
+
+alias ls="ls -FG"
+alias ll="ls -l"
+alias la="ls -lA"
+alias lh="ls -lh"
+
+alias grep="egrep --color"
+
+alias mx="chmod +x"
+alias tree="tree -l -C -x --dirsfirst"
+
+export LC_CTYPE="da_DK.UTF-8"
+export LC_WHOAMI=brde
+
+if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
+		export TITLE="\[\033]0;\h: \w\007\]"
+        export PS1=$TITLE'\[\033[01;35m\]\h \[\033[01;34m\]\w \n>\[\033[00m\] '
+        export PROMPT_COMMAND='history -a;history -r'
+
+        # write history allways
+        shopt -s histappend
+        export HISTFILE='~/.bash_history_brde'
+        export HISTSIZE=10000
+        export HISTFILESIZE=$HISTSIZE
+	    export HISTIGNORE="&:[ ]*:exit"
+fi
