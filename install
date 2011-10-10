@@ -16,7 +16,7 @@ cd ~/.vim_brde
 cd $root
 
 #### install bash config
-cp config/bashrc ~/.bashrc_$initials
+ln -s $root/config/bashrc ~/.bashrc_$initials
 
 ### install ssh keys
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh && chmod 0600 ~/.ssh
