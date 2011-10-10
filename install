@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 set -e
-source $(cd $0/..;pwd)/lib/utils.sh
+source $(cd $(dirname $0);pwd)/lib/utils.sh
 
 requires git
 
 initials=${1-brde}
 echo "initials $initials"
 
+git clone http://github.com/briandemant/vim.git ~/.vim_brde
+tmp/vim/bootstrap.sh $initials
 
+cd ~/.vim_brde
+./install_plugins
