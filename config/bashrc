@@ -23,10 +23,10 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 
         # write history allways
         shopt -s histappend
-		export HISTFILE='~/.brde/local/bash_history'
+		export HISTFILE="$HOME/.brde/local/bash_history"
         export HISTSIZE=10000
         export HISTFILESIZE=$HISTSIZE
-	    export HISTIGNORE="&:[ ]*:exit"
+	    export HISTIGNORE="&:[fb]g:ls:[ ]*:exit"
 fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
