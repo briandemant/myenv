@@ -31,3 +31,5 @@ fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
+
+export GIT_AUTHOR_NAME="Brian Demant"
