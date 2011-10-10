@@ -1,0 +1,2 @@
+alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
+alias vi='vim'
