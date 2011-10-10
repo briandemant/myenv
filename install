@@ -25,3 +25,8 @@ for key in $(ls keys/*.pub); do
 	grep "$(cat $key)" ~/.ssh/authorized_keys && echo "$key was installed"
 	grep "$(cat $key)" ~/.ssh/authorized_keys || cat $key >> ~/.ssh/authorized_keys && echo "$key installed"	
 done
+
+### install LC_WHOAMI
+if [[ "$(grep LC_WHOAMI ~/.bashrc)" == "" ]]; then
+ cat config/lc_whoami >> ~/.bashrc
+fi
