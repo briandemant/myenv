@@ -26,7 +26,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		export HISTFILE="$HOME/.brde/local/bash_history"
         export HISTSIZE=10000
         export HISTFILESIZE=$HISTSIZE
-	    export HISTIGNORE="&:[fb]g:ls:[ ]*:exit"
+	    export HISTIGNORE="&:[fb]g:ls:[ ]*:exit:history:env:"
 fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
