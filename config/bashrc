@@ -1,5 +1,4 @@
 alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
-alias vi='vim'
 
 [[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
 
@@ -17,16 +16,20 @@ export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde
 
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
-		export TITLE="\[\033]0;\h: \w\007\]"
-        export PS1=$TITLE'\[\033[01;31m\]\h \[\033[01;33m\]\w \n>\[\033[00m\] '
-        export PROMPT_COMMAND='history -a;history -r'
+	export TITLE="\[\033]0;\h: \w\007\]"
+	if [ "$(whoami)" == "root" ]; then
+		export PS1=$TITLE'\[\033[01;31m\]\h \[\033[01;33m\]\w \n>\[\033[00m\] '
+	else
+		export PS1=$TITLE'\[\033[01;32m\]\h \[\033[01;34m\]\w \n>\[\033[00m\] '
+	fi
+	export PROMPT_COMMAND='history -a;history -r'
 
-        # write history allways
-        shopt -s histappend
-		export HISTFILE="$HOME/.brde/local/bash_history"
-        export HISTSIZE=10000
-        export HISTFILESIZE=$HISTSIZE
-	    export HISTIGNORE="&:[fb]g:ls:[ ]*:exit:history:env:"
+	# write history allways
+	shopt -s histappend
+	export HISTFILE="$HOME/.brde/local/bash_history"
+	export HISTSIZE=10000
+	export HISTFILESIZE=$HISTSIZE
+	export HISTIGNORE="&:[fb]g:ls:[ ]*:exit:history:env:"
 fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
