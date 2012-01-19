@@ -1,6 +1,7 @@
 alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
 
 [[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
+[[ -e /usr/share/doc/cdargs/examples/cdargs-bash.sh ]] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
 
 alias ls="ls -FG"
 alias ll="ls -l"
@@ -32,7 +33,8 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	export HISTIGNORE="&:[fb]g:ls:[ ]*:exit:history:env:"
 fi
 
+export GIT_AUTHOR_NAME="Brian Demant"
+
+source ~/.brde/std_functions
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
-
-export GIT_AUTHOR_NAME="Brian Demant"

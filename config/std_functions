@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+runcron(){ 
+	php /var/www/*/cron/cronRunner.php /var/www/*/cron/.. /var/www/*/cron/jobs/$1.php /var/www/*/*/$2admin.php 1320168191 || echo "ERROR"
+}
