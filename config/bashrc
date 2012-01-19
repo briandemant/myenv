@@ -35,6 +35,7 @@ fi
 
 export GIT_AUTHOR_NAME="Brian Demant"
 
-source ~/.brde/std_functions
+source ~/.brde/config/std_functions
+
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
