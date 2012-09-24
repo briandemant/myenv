@@ -21,7 +21,9 @@ taillog(){
 
 _logs() 
 {
-	COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)") )
+	local cur
+	cur=${COMP_WORDS[COMP_CWORD]}
+	COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
 	return 0
 }
 
