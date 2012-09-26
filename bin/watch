@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+NOCOLOR = "\e[0m"
+DARKGREEN = "\e[0;32;40m"
+YELLOW = "\e[1;33;40m"
+
+begin
+	require 'rubygems'
+	begin
+		require 'rb-fsevent'
+	rescue LoadError
+		require 'rb-inotify'
+	end
+rescue LoadError
+	puts NOCOLOR + "gem install rb-fsevent " + YELLOW + "<- on osx"
+	puts NOCOLOR + "gem install rb-inotify " + YELLOW + "<- on linux"
+	sleep 3
+	exit 1
+end
+
+def something_changed(directories)
+		dirs = directories.select {|dir| not $ignored.any? {|reg| dir =~ reg } }
+		unless dirs.empty? 
+			puts YELLOW + " change inside: #{dirs.join ', '}" + NOCOLOR
+			puts 
+			exit
+		else 
+			#puts DARKGREEN + " change inside: #{directories.join ', '} .. but ignored" + NOCOLOR
+		end
+end	
+
+def print_wait
+	puts YELLOW
+	print "waiting ..." + NOCOLOR
+	STDOUT.flush
+end
+
+$ignored = ([".git"] + ARGV).map {|s|Regexp.new s}
+
+begin 
+	fsevent = FSEvent.new
+	fsevent.watch Dir.pwd do |directories|
+		something_changed directories
+	end
+	print_wait
+
+	fsevent.run
+rescue
+	notifier = INotify::Notifier.new
+	notifier.watch("./",:modify,:create, :delete, :moved_to,:moved_to,:onlydir,:recursive) do |event|
+		something_changed [File.dirname event.absolute_name]
+	end
+	print_wait
+	
+	notifier.run
+end
