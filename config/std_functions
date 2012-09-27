@@ -42,7 +42,6 @@ _logs()
 	local cur prev
 	cur=${COMP_WORDS[COMP_CWORD]}
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
-	echo ">>>$0"
 	case "$prev" in
 		lesslog|taillog)
 			COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
