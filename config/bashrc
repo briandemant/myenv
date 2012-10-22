@@ -34,7 +34,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 fi
 
 export GIT_AUTHOR_NAME="Brian Demant"
-
+export PATH=~/.brde/bin:/usr/local/share/npm/bin/:$PATH
 source ~/.brde/config/std_functions
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
