@@ -19,14 +19,14 @@ end
 
 def something_changed(directories)
 		dirs = directories.select {|dir| not $ignored.any? {|reg| dir =~ reg } }
-		unless dirs.empty? 
+		unless dirs.empty?
 			puts YELLOW + " change inside: #{dirs.join ', '}" + NOCOLOR
-			puts 
+			puts
 			exit
-		else 
-			#puts DARKGREEN + " change inside: #{directories.join ', '} .. but ignored" + NOCOLOR
+		else
+			puts DARKGREEN + " change inside: #{directories.join ', '} .. but ignored" + NOCOLOR
 		end
-end	
+end
 
 def print_wait
 	puts YELLOW
@@ -34,9 +34,9 @@ def print_wait
 	STDOUT.flush
 end
 
-$ignored = ([".git"] + ARGV).map {|s|Regexp.new s}
+$ignored = (["\\.git"] + ARGV).map {|s|Regexp.new s}
 
-begin 
+begin
 	fsevent = FSEvent.new
 	fsevent.watch Dir.pwd do |directories|
 		something_changed directories
@@ -47,9 +47,9 @@ begin
 rescue
 	notifier = INotify::Notifier.new
 	notifier.watch("./",:modify,:create, :delete, :moved_to,:moved_to,:onlydir,:recursive) do |event|
-		something_changed [File.dirname event.absolute_name]
+		something_changed [File.dirname, event.absolute_name]
 	end
 	print_wait
-	
+
 	notifier.run
 end

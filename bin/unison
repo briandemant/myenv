@@ -3,5 +3,5 @@ here=$(cd $(dirname $0);pwd)
 if [[ -e /Applications ]]; then
 	$here/unison-osx $*
 else
-	$jere/unison-linux $*
+	$here/unison-linux $*
 fi

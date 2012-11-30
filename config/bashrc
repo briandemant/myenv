@@ -17,11 +17,22 @@ export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde
 
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
-	export TITLE="\[\033]0;\h: \w\007\]"
+	parse_git_branch() {
+		git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+	}
+
+	RESET="\\[\\033[00m\\]"
+	GREEN="\\[\\033[01;32m\\]"
+	GREY="\\[\\033[01;30m\\]"
+	YELLOW="\\[\\033[01;33m\\]"
+	BLUE="\\[\\033[01;34m\\]"
+	RED="\\[\\033[01;31m\\]"
+	
+	export TITLE="\[\033]0;\h: \w\\007\]"
 	if [ "$(whoami)" == "root" ]; then
-		export PS1=$TITLE'\[\033[01;31m\]\h \[\033[01;33m\]\w \n>\[\033[00m\] '
+		PS1="$YELLOW\\h $RED\\w $GREY\$(parse_git_branch)$YELLOW\$(git dirty)$GREY$RESET\n> "
 	else
-		export PS1=$TITLE'\[\033[01;32m\]\h \[\033[01;34m\]\w \n>\[\033[00m\] '
+		PS1="$GREEN\\h $BLUE\\w $GREY\$(parse_git_branch)$YELLOW\$(git dirty)$GREY$RESET\n> "
 	fi
 	export PROMPT_COMMAND='history -a;history -r'
 
@@ -36,6 +47,8 @@ fi
 export GIT_AUTHOR_NAME="Brian Demant"
 export PATH=~/.brde/bin:/usr/local/share/npm/bin/:$PATH
 source ~/.brde/config/std_functions
+
+export PATH="~/.brde/bin:$PATH"
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
