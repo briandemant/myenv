@@ -21,19 +21,39 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 	}
 
+	git_dirty() {
+		if [ "$(git status --porcelain 2> /dev/null | head -n1)" != "" ]; then
+			echo "*"
+		fi
+	}
+
 	RESET="\\[\\033[00m\\]"
 	GREEN="\\[\\033[01;32m\\]"
 	GREY="\\[\\033[01;30m\\]"
 	YELLOW="\\[\\033[01;33m\\]"
 	BLUE="\\[\\033[01;34m\\]"
 	RED="\\[\\033[01;31m\\]"
-	
+	CYAN="\\[\\033[01;36m\\]"
+
 	export TITLE="\[\033]0;\h: \w\\007\]"
-	if [ "$(whoami)" == "root" ]; then
-		PS1="$YELLOW\\h $RED\\w $GREY\$(parse_git_branch)$YELLOW\$(git dirty)$GREY$RESET\n> "
-	else
-		PS1="$GREEN\\h $BLUE\\w $GREY\$(parse_git_branch)$YELLOW\$(git dirty)$GREY$RESET\n> "
+	server_type=$(hostname -s|egrep -o '^fma.')
+	HC=$GREY
+	if [ "${server_type:0:3}" == "fma" ]; then
+		if [ "${server_type:0:4}" == "fmad" ]; then
+			HC=$RED
+		else
+			HC=$CYAN
+		fi
 	fi
+
+	if [ "$(whoami)" == "root" ]; then
+		DC=$YELLOW
+	else
+		DC=$BLUE
+	fi
+
+	PS1="$HC\\h $DC\\w $GREY\$(parse_git_branch)$YELLOW\$(git_dirty)$GREY$RESET\n> "
+
 	export PROMPT_COMMAND='history -a;history -r'
 
 	# write history allways
