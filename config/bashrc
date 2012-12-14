@@ -33,6 +33,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	YELLOW="\\[\\033[01;33m\\]"
 	BLUE="\\[\\033[01;34m\\]"
 	RED="\\[\\033[01;31m\\]"
+	CYAN="\\[\\033[01;36m\\]"
 
 	export TITLE="\[\033]0;\h: \w\\007\]"
 	server_type=$(hostname -s|egrep -o '^fma.')
@@ -41,7 +42,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		if [ "${server_type:0:4}" == "fmad" ]; then
 			HC=$RED
 		else
-			HC=$GREEN
+			HC=$CYAN
 		fi
 	fi
 
