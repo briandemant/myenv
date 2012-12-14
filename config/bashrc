@@ -45,7 +45,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 fi
 
 export GIT_AUTHOR_NAME="Brian Demant"
-export PATH=~/.brde/bin:/usr/local/share/npm/bin/:$PATH
+export PATH=~/.brde/bin:/usr/local/share/npm/bin:$PATH:/usr/local/sbin
 source ~/.brde/config/std_functions
 
 export PATH="~/.brde/bin:$PATH"
