@@ -1,0 +1,23 @@
+#!/home/web/.brde/ruby-enterprise/bin/ruby
+class Root
+	attr_accessor :path, :svninfo
+	def self.all(reload=false)
+		@all = nil if reload
+		@all ||= begin
+			roots=[]
+			depth=0
+			until (dirs=Dir['*/' * depth + 'CHANGELOG']).empty? && depth > 2
+				depth += 1
+				roots << dirs
+			end
+			roots.flatten.map do |path| 
+				r = Root.new
+				r.path=File.dirname(path)
+				r.svninfo=`svn info #{path} 2>/dev/null`.split("\n")
+				$? == 0 ? r : nil
+			end.compact
+		end
+	end
+end
+
+puts Root.all(true).inspect

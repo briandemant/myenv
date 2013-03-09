@@ -12,6 +12,7 @@ alias grep="egrep --color"
 
 alias mx="chmod +x"
 alias tree="tree -l -C -x --dirsfirst"
+alias git="HOME=~/.brde/config/ git"
 
 export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde

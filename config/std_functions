@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 runcron(){ 
 	if [ -f /var/www/*/*/$2admin.php ] ; then
-		php /var/www/*/cron/cronRunner.php /var/www/*/cron/.. /var/www/*/cron/jobs/$1.php /var/www/*/*/$2admin.php 1320168191 || echo "ERROR"
+		php /var/www/*/cron/cronRunner.php /var/www/*/cron/.. /var/www/*/cron/jobs/$1.php /var/www/*/*/$2admin.php $(($(date +%s) - 60 * 60))|| echo "ERROR"
 	else
-		php /var/www/*/cron/cronRunner.php /var/www/*/cron/.. /var/www/*/cron/jobs/$1.php /var/www/*/*/$2.php 1320168191 || echo "ERROR"
+		php /var/www/*/cron/cronRunner.php /var/www/*/cron/.. /var/www/*/cron/jobs/$1.php /var/www/*/*/$2.php $(($(date +%s) - 60 * 60)) || echo "ERROR"
 	fi
 }
 
@@ -43,12 +43,12 @@ _logs()
 	cur=${COMP_WORDS[COMP_CWORD]}
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
 	case "$prev" in
-		lesslog|taillog)
+		lesslog|taillog|runcron)
 			COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
 			return 0
 			;;
 		*)
-			COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/$prev/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
+			COMPREPLY=( $(compgen -W "$(cd /var/www/*/{defines,config}/;ls  *.php| sed 's/.php//g' )" -- $cur) )
 			return 0
 			;;
 	esac
@@ -56,3 +56,28 @@ _logs()
 
 complete -F _logs lesslog
 complete -F _logs taillog
+complete -F _logs runcron
+
+ssh-copy-key() {
+	if [ "$2" == "" ]; then
+		user='root'
+		server=$1
+	else
+		user=$1
+		server=$2
+	fi
+	ssh $user@$server 'mkdir -p ~/.ssh;chmod 700 ~/.ssh/;grep briandemant ~/.ssh/authorized_keys > /dev/null || cat >> ~/.ssh/authorized_keys;chmod 644 ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
+}
+
+install-myenv() {
+	if [ "$2" == "" ]; then
+		user='root'
+		server=$1
+	else
+		user=$1
+		server=$2
+	fi
+	ssh $user@$server '[ -e .brde ] && exit; git clone http://github.com/briandemant/myenv.git ~/.brde ; cd .brde ; ./install'
+}
+
+
