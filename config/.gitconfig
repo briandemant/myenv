@@ -8,6 +8,9 @@
 	cia = commit -a
 	type = cat-file -t
 	dump = cat-file -p
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 [user]
 	name = Brian Demant
 	email = brian.demant@gmail.com
@@ -26,3 +29,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[diff]
+	algorithm = patience

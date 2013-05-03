@@ -74,5 +74,9 @@ export PATH="~/.brde/bin:$PATH"
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
 
-ssh-agent > /dev/null
-ssh-add 2> /dev/null
+eval `ssh-agent`
+
+trap '
+     test -n "$SSH_AGENT_PID"  && eval `ssh-agent -k`;
+        test -n "$SSH2_AGENT_PID" && kill $SSH2_AGENT_PID
+' 0
