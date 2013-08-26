@@ -16,9 +16,9 @@ lesslog(){
 	fi
 
 	if [[ "$3" == "" ]] ; then
-		less /var/www/*/cron/log/$1/$(date +%Y-%m-%d)/$inst
+		less -r /var/www/*/cron/log/$1/$(date +%Y-%m-%d)/$inst
 	else
-		less /var/www/*/cron/log/$1/$3/$inst
+		less -r /var/www/*/cron/log/$1/$3/$inst
 	fi
 }
 
@@ -42,7 +42,6 @@ _logs()
 	local cur prev
 	cur=${COMP_WORDS[COMP_CWORD]}
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
-	echo ">>>$0"
 	case "$prev" in
 		lesslog|taillog)
 			COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
