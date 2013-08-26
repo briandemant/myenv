@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+_unison() 
+{
+	local cur prev
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case "$prev" in
+		unison)
+			COMPREPLY=( $(compgen -W "$(echo "$(cd ~/.unison/;ls *.prf)" | cut -d'.' -f1)" -- $cur) )
+			return 0
+			;;
+		*)
+			COMPREPLY=( $(compgen -W "$(cd /var/www/*/cron/log/$prev/;ls -d *|grep '/' | sed 's/ /\\ /g' |cut -f1 -d\/)" -- $cur) )
+			return 0
+			;;
+	esac
+}
+
+complete -F _unison unison

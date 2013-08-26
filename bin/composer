@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo $*
+php $(dirname $0)/composer.phar $*

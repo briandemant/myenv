@@ -1,0 +1,33 @@
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	br = branch
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	df = diff --ignore-space-at-eol -w -b
+	cia = commit -a
+	type = cat-file -t
+	dump = cat-file -p
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+[user]
+	name = Brian Demant
+	email = brian.demant@gmail.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[core]
+	editor = vim
+	pager = less -r
+	excludesfile = /Users/briandemant/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[diff]
+	algorithm = patience
