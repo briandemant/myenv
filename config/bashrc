@@ -22,11 +22,17 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 	}
 
-	git_dirty() {
-		if [ "$(git status --porcelain 2> /dev/null | head -n1)" != "" ]; then
-			echo "*"
-		fi
-	}
+	if which git-dirty >/dev/null; then
+		git_dirty() {
+			git dirty -i
+		}
+	else
+		git_dirty() {
+			if [ "$(git status --porcelain 2> /dev/null | head -n1)" != "" ]; then
+				echo "*"
+			fi
+		}
+	fi
 
 	RESET="\\[\\033[00m\\]"
 	GREEN="\\[\\033[01;32m\\]"
@@ -66,18 +72,16 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 fi
 
 export GIT_AUTHOR_NAME="Brian Demant"
-export PATH=~/.brde/bin:/usr/local/share/npm/bin:$PATH:/usr/local/sbin
+export PATH=~/.brde/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:$PATH
 source ~/.brde/config/std_functions
 source ~/.brde/config/completions
-
-export PATH="~/.brde/bin:$PATH"
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
 
-eval `ssh-agent`
+eval `ssh-agent` > /dev/null
 
 trap '
-     test -n "$SSH_AGENT_PID"  && eval `ssh-agent -k`;
-        test -n "$SSH2_AGENT_PID" && kill $SSH2_AGENT_PID
+     test -n "$SSH_AGENT_PID"  && eval `ssh-agent -k` > /dev/null;
+        test -n "$SSH2_AGENT_PID" && kill $SSH2_AGENT_PID > /dev/null 
 ' 0
