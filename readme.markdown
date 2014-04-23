@@ -1,6 +1,6 @@
 ### Installation:
     cd ~
-	git clone http://github.com/briandemant/myenv.git ~/.brde
+	git clone https://github.com/briandemant/myenv.git ~/.brde
 	cd ~/.brde
 	./install
 	source ~/.brde/config/bashrc
