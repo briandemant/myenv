@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-_unison() 
-{
+_unison() {
 	local cur prev
 	cur=${COMP_WORDS[COMP_CWORD]}
 	prev="${COMP_WORDS[COMP_CWORD-1]}"
@@ -17,3 +16,6 @@ _unison()
 }
 
 complete -F _unison unison
+
+ 
+[[ -e /usr/local/etc/bash_completion.d/cdargs-bash.sh ]] && . /usr/local/etc/bash_completion.d/cdargs-bash.sh

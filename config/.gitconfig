@@ -31,3 +31,5 @@
 	trustExitCode = true
 [diff]
 	algorithm = patience
+[push]
+	default = current

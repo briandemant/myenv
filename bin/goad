@@ -1,0 +1,1 @@
+ssh root@$(curl -s https://internal.adservinghost.com/debug/installations.php | grep $1 | grep -o fmadadmin..)
