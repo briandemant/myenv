@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+cd ~/Dropbox/journal
+# from midnight until 4:00 we write for yesterday
+now=$(date -r $[ $(date +%s) - 60 * 60 * 4 ] +%s)
+oldest=$(date -j -f "%Y-%m-%d" "$(ls  20* | sort -n | head -1 | egrep -o '[-0-9]+')" +%s)
+count=$(ls  20* | wc -l | egrep -o [0-9]+)
+echo "journaling for $[ ($now - $oldest) / (60*60*24) + 1 ] days .. $count journal entries found"
+
+i=$oldest
+d=5
+while [[ $i < $now ]]; do
+	[ -e $(date -r $i +%Y-%m-%d).md ] && echo -n "X" || echo -n "."
+	i=$[ $i + 60* 60 * 24 ]
+	sleep 0.01
+	d=$[ $d + 1 ]
+	[[ $d == 7 ]] && echo -n "|" && d=0
+done
+
+read
+
+today=$(date -r $now +%Y-%m-%d)
+echo "Write for today : $today";
+
+# backup or create from template
+if [ -e $today.md ]; then
+	cp $today.md backup/$(date +%Y-%m-%d_%H%M%S).md
+else
+	echo "# Journal for $today" > $today.md
+	cat _template.md >> $today.md
+fi
+vim $today.md
+
+function review() {
+	old=$(date -r $[ $now - 60 * 60 * 24 * $2 ] +%Y-%m-%d)
+	if [ -e $old.md ] ; then
+		less $old.md
+	else
+		echo "no journal for $1 $old"
+	fi
+}
+
+review "last week" 7
+review "2 weeks ago" 14
+review "3 weeks ago" 21
+review "a quater ago" $[ 13 * 7 ] # $ quarter
+review "a half a year ago" $[ 26 * 7 ] # $ half year 
+review "last year" $[ 52 * 7 ] # $ year 
