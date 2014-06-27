@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 cd ~/Dropbox/journal
 # from midnight until 4:00 we write for yesterday
-now=$(date -r $[ $(date +%s) - 60 * 60 * 4 ] +%s)
+if [ "$1" == "" ]; then
+	now=$(date -r $[ $(date +%s) - 60 * 60 * 4 ] +%s)
+else
+	now=$(date -j -f "%Y-%m-%d" "$1" +%s)
+fi
 oldest=$(date -j -f "%Y-%m-%d" "$(ls  20* | sort -n | head -1 | egrep -o '[-0-9]+')" +%s)
 count=$(ls  20* | wc -l | egrep -o [0-9]+)
 echo "journaling for $[ ($now - $oldest) / (60*60*24) + 1 ] days .. $count journal entries found"
