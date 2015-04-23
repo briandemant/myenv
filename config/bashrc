@@ -16,6 +16,7 @@ alias git="HOME=~/.brde/config/ git"
 
 export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde
+export EDITOR=vim
 
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	parse_git_branch() {
@@ -81,16 +82,13 @@ program_exists () {
 }
 
 
+if program_exists brew; then
+	export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
+fi
+
 if program_exists go; then
 	export GOROOT=`go env GOROOT`
 fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
-
-eval `ssh-agent` > /dev/null
-
-trap '
-test -n "$SSH_AGENT_PID"  && eval `ssh-agent -k` > /dev/null;
-test -n "$SSH2_AGENT_PID" && kill $SSH2_AGENT_PID > /dev/null 
-' 0
