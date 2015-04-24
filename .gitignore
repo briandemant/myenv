@@ -4,3 +4,4 @@
 ruby-enterprise/
 tmp/
 .mysql_history
+config/.viminfo

@@ -44,20 +44,33 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	CYAN="\\[\\033[01;36m\\]"
 
 	export TITLE="\[\033]0;\h: \w\\007\]"
-	server_type=$(hostname -s|egrep -o '^fma.')
+	server_type=$(hostname -s|egrep -o '^....')
 	HC=$GREY
-	if [ "${server_type:0:3}" == "fma" ]; then
-		if [ "${server_type:0:4}" == "fmad" ]; then
-			HC=$RED
-		else
+	RC=$YELLOW
+	UC=$BLUE
+
+	if [ "${server_type:0:2}" == "gg" ]; then
+		UC=$GREEN
+		if [ "${server_type:0:3}" == "ggd" ]; then
 			HC=$CYAN
+		else
+			HC=$RED
+		fi
+	fi
+
+	if [ "${server_type:0:2}" == "fm" ]; then
+		UC=$GREEN
+		if [ "${server_type:0:4}" == "fmas" ]; then
+			HC=$CYAN
+		else
+			HC=$RED
 		fi
 	fi
 
 	if [ "$(whoami)" == "root" ]; then
-		DC=$YELLOW
+		DC=$RC
 	else
-		DC=$BLUE
+		DC=$UC
 	fi
 
 	PS1="$HC\\h $DC\\w $GREY\$(parse_git_branch)$YELLOW\$(git_dirty)$GREY$RESET\n> "
@@ -81,10 +94,6 @@ program_exists () {
 	type "$1" &> /dev/null ;
 }
 
-
-if program_exists brew; then
-	export PATH=$(brew --prefix coreutils)/libexec/gnubin:$PATH
-fi
 
 if program_exists go; then
 	export GOROOT=`go env GOROOT`
