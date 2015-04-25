@@ -39,32 +39,20 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		}
 	fi
 
-
-
 	export TITLE="\[\033]0;\h: \w\\007\]"
-	server_type=$(hostname -s|egrep -o '^....')
 
-
-	if [ "${server_type:0:2}" == "gg" ]; then
-		UC=$GREEN
-		if [ "${server_type:0:3}" == "ggd" ]; then
-			HC=$CYAN
-		else
-			HC=$RED
-		fi
-	fi
-
-	if [ "${server_type:0:2}" == "fm" ]; then
-		UC=$GREEN
-		if [ "${server_type:0:4}" == "fmas" ]; then
-			HC=$CYAN
-		else
-			HC=$RED
-		fi
-	fi
+	# server_type=$(hostname -s|egrep -o '^....')
+	# if [ "${server_type:0:2}" == "fm" ]; then
+	# 	UC=$GREEN
+	# 	if [ "${server_type:0:4}" == "fmas" ]; then
+	# 		HC=$CYAN
+	# 	else
+	# 		HC=$RED
+	# 	fi
+	# fi
 
 	if [ "$(whoami)" == "root" ]; then
-		DC=$RC 
+		DC=$RC
 	else
 		DC=$UC
 	fi
