@@ -9,5 +9,5 @@ RED="\\[\\033[01;31m\\]"
 CYAN="\\[\\033[01;36m\\]"
 
 HC=$GREY
-RC=$YELLOW
+RC=$RED
 UC=$BLUE
