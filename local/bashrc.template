@@ -1,0 +1,11 @@
+#!/bin/bash
+
+HC=$GREY   # desktop
+HC=$RED    # production
+HC=$GREEN  # develop
+HC=$YELLOW # test
+
+echo -e "\n\\033[01;31mYOU ARE ON A PRODUCTION SERVER\\033[00m\n"
+
+export XDEBUG_CONFIG="idekey=PHPSTORM"
+export PHP_IDE_CONFIG=serverName=$(hostname -s)

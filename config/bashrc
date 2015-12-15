@@ -18,6 +18,10 @@ export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde
 export EDITOR=vim
 
+source ~/.brde/config/colors
+
+[[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
+
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	parse_git_branch() {
 		git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
@@ -35,37 +39,17 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		}
 	fi
 
-	RESET="\\[\\033[00m\\]"
-	GREEN="\\[\\033[01;32m\\]"
-	GREY="\\[\\033[01;30m\\]"
-	YELLOW="\\[\\033[01;33m\\]"
-	BLUE="\\[\\033[01;34m\\]"
-	RED="\\[\\033[01;31m\\]"
-	CYAN="\\[\\033[01;36m\\]"
-
 	export TITLE="\[\033]0;\h: \w\\007\]"
-	server_type=$(hostname -s|egrep -o '^....')
-	HC=$GREY
-	RC=$YELLOW
-	UC=$BLUE
 
-	if [ "${server_type:0:2}" == "gg" ]; then
-		UC=$GREEN
-		if [ "${server_type:0:3}" == "ggd" ]; then
-			HC=$CYAN
-		else
-			HC=$RED
-		fi
-	fi
-
-	if [ "${server_type:0:2}" == "fm" ]; then
-		UC=$GREEN
-		if [ "${server_type:0:4}" == "fmas" ]; then
-			HC=$CYAN
-		else
-			HC=$RED
-		fi
-	fi
+	# server_type=$(hostname -s|egrep -o '^....')
+	# if [ "${server_type:0:2}" == "fm" ]; then
+	# 	UC=$GREEN
+	# 	if [ "${server_type:0:4}" == "fmas" ]; then
+	# 		HC=$CYAN
+	# 	else
+	# 		HC=$RED
+	# 	fi
+	# fi
 
 	if [ "$(whoami)" == "root" ]; then
 		DC=$RC
@@ -100,4 +84,3 @@ if program_exists go; then
 fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
-[[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
