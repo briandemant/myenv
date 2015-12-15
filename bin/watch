@@ -34,7 +34,7 @@ def print_wait
 	STDOUT.flush
 end
 
-$ignored = (%w[.git proxies log actual_running pids last_update] + ARGV).map {|s|Regexp.new s}
+$ignored = (%w[.idea .DS_Store tmp .git proxies log actual_running pids last_update] + ARGV).map {|s|Regexp.new s}
 
 begin
 	fsevent = FSEvent.new
