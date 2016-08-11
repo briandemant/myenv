@@ -8,7 +8,8 @@
 	cia = commit -a
 	type = cat-file -t
 	dump = cat-file -p
-	dflog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short
+	dflog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S'
+	dflog2 = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=iso
 	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
