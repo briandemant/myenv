@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-rm -rf ~/Library/Preferences/WebIde*/
+find ~/Library/ /Library/ -name 'WebIde*' -or -name 'PhpStorm*' -exec rm -r {} \;
+open ~/Library/Preferences//com.apple.java.util.prefs.plist

@@ -69,6 +69,9 @@ ssh-copy-key() {
 	ssh $user@$server 'mkdir -p ~/.ssh;chmod 700 ~/.ssh/;grep briandemant ~/.ssh/authorized_keys > /dev/null || cat >> ~/.ssh/authorized_keys;chmod 644 ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
 }
 
+# visual studio code
+function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
+
 install-myenv() {
 	if [ "$2" == "" ]; then
 		user='root'
