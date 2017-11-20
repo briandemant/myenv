@@ -33,3 +33,5 @@
 	algorithm = patience
 [push]
 	default = current
+[url "ssh://git@heroku.com/"]
+	insteadOf = https://git.heroku.com/

@@ -24,7 +24,7 @@ def something_changed(directories)
 			puts
 			exit
 		else
-			#puts DARKGREEN + " change inside: #{directories.join ', '} .. but ignored" + NOCOLOR
+			puts DARKGREEN + " change inside: #{directories.join ', '} .. but ignored" + NOCOLOR
 		end
 end
 
@@ -34,7 +34,7 @@ def print_wait
 	STDOUT.flush
 end
 
-$ignored = (%w[.git proxies log actual_running pids last_update] + ARGV).map {|s|Regexp.new s}
+$ignored = (%w[.idea .git node_modules tmp proxies log actual_running pids last_update] + ARGV).map {|s|Regexp.new s}
 
 begin
 	fsevent = FSEvent.new
