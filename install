@@ -11,7 +11,6 @@ echo -e "${GREEN}initials ${RED}$initials${RESET}"
 
 if [ ! -e ~/.$initials/local/bashrc ]; then 
 	cp local/bashrc.template local/bashrc
-	vim local/bashrc
 fi
 
 exit
