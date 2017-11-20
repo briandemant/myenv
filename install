@@ -9,7 +9,7 @@ initials=${1-brde}
 echo "initials $initials"
 
 #### install vim config
-git clone https://github.com/briandemant/vim.git ~/.vim_brde
+[ -e ~/.vim_brde ] || git clone https://github.com/briandemant/vim.git ~/.vim_brde
 ~/.vim_brde/bootstrap.sh $initials
 cd ~/.vim_brde
 ./install_plugins

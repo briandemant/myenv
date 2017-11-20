@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
 
 [[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
@@ -70,8 +71,10 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 fi
 
 export GIT_AUTHOR_NAME="Brian Demant"
+export GIT_AUTHOR_EMAIL="brian.demant@gmail.com"
 export PATH=~/.brde/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:$PATH
 source ~/.brde/config/std_functions
+# source ~/.brde/config/adserving_functions
 source ~/.brde/config/completions
 
 program_exists () {

@@ -17,5 +17,5 @@ _unison() {
 
 complete -F _unison unison
 
- 
+
 [[ -e /usr/local/etc/bash_completion.d/cdargs-bash.sh ]] && . /usr/local/etc/bash_completion.d/cdargs-bash.sh
