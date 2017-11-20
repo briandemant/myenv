@@ -24,7 +24,7 @@ echo -e "${GREEN}install vim config${RESET}"
 cd $root
 
 #### install bash config
-ln -s $root/config/bashrc ~/.bashrc_$initials
+[ -e ~/.bashrc_$initials ] || ln -s $root/config/bashrc ~/.bashrc_$initials
 
 ### install ssh keys
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh && chmod 0600 ~/.ssh
@@ -36,6 +36,6 @@ done
 
 ### install LC_WHOAMI
 if [[ "$(grep LC_WHOAMI ~/.bashrc)" == "" ]]; then
- cat config/lc_whoami >> ~/.bashrc
+	cat config/lc_whoami >> ~/.bashrc
 fi
 
