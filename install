@@ -10,7 +10,12 @@ initials=${1-brde}
 echo -e "${GREEN}initials ${RED}$initials${RESET}"
 
 #### install vim config
-[ -e ~/.vim_$initials ] || git clone https://github.com/briandemant/vim.git ~/.vim_$initials
+if [ -e ~/.vim_$initials ]; then
+	cd ~/.vim_$initials
+	git pull
+else
+	git clone https://github.com/briandemant/vim.git ~/.vim_$initials
+fi
 ~/.vim_$initials/bootstrap.sh $initials
 cd ~/.vim_$initials
 
