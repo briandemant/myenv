@@ -1,4 +1,4 @@
-export GIT_AUTHOR_EMAIL="$LC_WHOAMI@fynskemedier.dk"
+export GIT_AUTHOR_EMAIL="$LC_WHOAMI@jfmedier.dk"
 export GIT_AUTHOR_NAME="$LC_WHOAMI"
 
 if [ -f ~/.bashrc_"$LC_WHOAMI" ]; then

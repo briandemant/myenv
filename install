@@ -2,32 +2,50 @@
 set -e
 root=$(cd $(dirname $0);pwd)
 source $root/lib/utils.sh
+source ./config/colors
 
 requires git
 
-initials=${1-brde}
-echo "initials $initials"
+initials=${1-$LC_WHOAMI}
+echo -e "${GREEN}initials ${RED}$initials${RESET}"
 
+if [ ! -e ~/.$initials/local/bashrc ]; then 
+	cp local/bashrc.template local/bashrc
+fi
+
+exit
 #### install vim config
-git clone https://github.com/briandemant/vim.git ~/.vim_brde
-~/.vim_brde/bootstrap.sh $initials
-cd ~/.vim_brde
-./install_plugins
+if [ -e ~/.vim_$initials ]; then
+	cd ~/.vim_$initials
+	git pull
+else
+	git clone https://github.com/briandemant/vim.git ~/.vim_$initials
+fi
+
+~/.vim_$initials/bootstrap.sh $initials
+cd ~/.vim_$initials
+
+echo -e "${GREEN}install vim config${RESET}"
+./install_plugins $initials
 cd $root
 
 #### install bash config
-ln -s $root/config/bashrc ~/.bashrc_$initials
+[ -e ~/.bashrc_$initials ] || ln -s $root/config/bashrc ~/.bashrc_$initials
 
 ### install ssh keys
 [[ ! -d ~/.ssh ]] && mkdir ~/.ssh && chmod 0600 ~/.ssh
 touch ~/.ssh/authorized_keys && chmod 0644 ~/.ssh/authorized_keys
 for key in $(ls keys/*.pub); do
-	grep "$(head -n1 $key)" ~/.ssh/authorized_keys && echo "$key was installed"
-	grep "$(head -n1 $key)" ~/.ssh/authorized_keys || cat $key >> ~/.ssh/authorized_keys && echo "$key installed"	
+	if grep "$(head -n1 $key)" ~/.ssh/authorized_keys > /dev/null; then
+		echo -e "${YELLOW}$key was already installed${RESET}"
+	else 
+		cat $key >> ~/.ssh/authorized_keys
+		echo -e "${GREEN}$key was installed${RESET}"	
+	fi
 done
 
 ### install LC_WHOAMI
 if [[ "$(grep LC_WHOAMI ~/.bashrc)" == "" ]]; then
- cat config/lc_whoami >> ~/.bashrc
+	cat config/lc_whoami >> ~/.bashrc
 fi
 
