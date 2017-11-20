@@ -13,7 +13,7 @@ if [ ! -e ~/.$initials/local/bashrc ]; then
 	cp local/bashrc.template local/bashrc
 fi
 
-exit
+
 #### install vim config
 if [ -e ~/.vim_$initials ]; then
 	cd ~/.vim_$initials
