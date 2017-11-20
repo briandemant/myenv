@@ -51,9 +51,9 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	# fi
 
 	if [ "$(whoami)" == "root" ]; then
-		PS_DC=$PS_RC
+		DC=$RC
 	else
-		PS_DC=$PS_UC
+		DC=$UC
 	fi
 
 	PS1="$HC\\h $DC\\w $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "

@@ -17,5 +17,7 @@ PS_RED="\\[\\033[01;31m\\]"
 PS_CYAN="\\[\\033[01;36m\\]"
 
 HC=$PS_GREY
+# color of folder when root
 RC=$PS_RED
+# color of folder when regular user
 UC=$PS_BLUE
