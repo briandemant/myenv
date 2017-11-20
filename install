@@ -6,9 +6,15 @@ source ./config/colors
 
 requires git
 
-initials=${1-brde}
+initials=${1-$LC_WHOAMI}
 echo -e "${GREEN}initials ${RED}$initials${RESET}"
 
+if [ ! -e ~/.$initials/local/bashrc ]; then 
+	cp local/bashrc.template local/bashrc
+	vim local/bashrc
+fi
+
+exit
 #### install vim config
 if [ -e ~/.vim_$initials ]; then
 	cd ~/.vim_$initials
@@ -16,11 +22,12 @@ if [ -e ~/.vim_$initials ]; then
 else
 	git clone https://github.com/briandemant/vim.git ~/.vim_$initials
 fi
+
 ~/.vim_$initials/bootstrap.sh $initials
 cd ~/.vim_$initials
 
 echo -e "${GREEN}install vim config${RESET}"
-./install_plugins
+./install_plugins $initials
 cd $root
 
 #### install bash config

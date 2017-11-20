@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-alias vim='vim -p -i ~/.vim_brde/.viminfo -u ~/.vim_brde/config/vimrc'
-
+#!/usr/bin/env bash 
 [[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
 [[ -e /usr/share/doc/cdargs/examples/cdargs-bash.sh ]] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
 
@@ -58,7 +56,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		PS_DC=$PS_UC
 	fi
 
-	PS1="$PS_HC\\h $PS_DC\\w $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
+	PS1="$HC\\h $DC\\w $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
 
 	export PROMPT_COMMAND='history -a;history -r'
 

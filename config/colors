@@ -1,14 +1,4 @@
 #!/bin/bash
-
-PS_RESET="\\[\\033[00m\\]"
-PS_GREEN="\\[\\033[01;32m\\]"
-PS_GREY="\\[\\033[01;30m\\]"
-PS_YELLOW="\\[\\033[01;33m\\]"
-PS_BLUE="\\[\\033[01;34m\\]"
-PS_RED="\\[\\033[01;31m\\]"
-PS_CYAN="\\[\\033[01;36m\\]"
-
-
 RESET="\033[00m"
 GREEN="\033[01;32m"
 GREY="\033[01;30m"
@@ -17,6 +7,15 @@ BLUE="\033[01;34m"
 RED="\033[01;31m"
 CYAN="\033[01;36m"
 
-PS_HC=$PS_GREY
-PS_RC=$PS_RED
-PS_UC=$PS_BLUE
+# prompt colors
+PS_RESET="\\[\\033[00m\\]"
+PS_GREEN="\\[\\033[01;32m\\]"
+PS_GREY="\\[\\033[01;30m\\]"
+PS_YELLOW="\\[\\033[01;33m\\]"
+PS_BLUE="\\[\\033[01;34m\\]"
+PS_RED="\\[\\033[01;31m\\]"
+PS_CYAN="\\[\\033[01;36m\\]"
+
+HC=$PS_GREY
+RC=$PS_RED
+UC=$PS_BLUE
