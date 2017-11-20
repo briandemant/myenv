@@ -53,12 +53,12 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	# fi
 
 	if [ "$(whoami)" == "root" ]; then
-		DC=$RC
+		PS_DC=$PS_RC
 	else
-		DC=$UC
+		PS_DC=$PS_UC
 	fi
 
-	PS1="$HC\\h $DC\\w $GREY\$(parse_git_branch)$YELLOW\$(git_dirty)$GREY$RESET\n> "
+	PS1="$PS_HC\\h $PS_DC\\w $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
 
 	export PROMPT_COMMAND='history -a;history -r'
 
