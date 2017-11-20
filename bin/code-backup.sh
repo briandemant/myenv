@@ -6,14 +6,19 @@ zero_pad(){
 }
 
 source=$1
-name=$2
+name=${2:-$(basename $source)}
 
-ROOT=~/code-backup/$2
+if [ "" == "$source" ] ||  [ "" == "$name" ]; then
+  echo "Usage $0 [folder-to-backup] [name-of-backup]"
+  exit
+fi
+
+ROOT=~/code-backup/$name
 hour=$(date +%H)
 minute=$(zero_pad $(( (1$(date +%M)-100) / 15 * 15 )) 2)
 #minute=$(zero_pad $(( (115-100) / 15 * 15 )) 2)
 now=$hour$minute
-mkdir -p $ROOT
+mkdir -p $ROOT/current/
 
 diff="$(rsync -avn $source $ROOT/current/|wc -l)"
 if [[ "5" == "$diff" ]];then
@@ -39,7 +44,9 @@ for x in $(seq $keepmax -1 2);do
   [[ -e $from ]] && mv $from $to 2>/dev/null
 done
 
-cp -al $ROOT/current $ROOT/old.1
+exclude="--exclude=cache/ --exclude=*.hits --exclude=node_modules --exclude=.idea --exclude=tmp --exclude=*.log"
 
-rsync -a --delete $source ${ROOT}/current
+rsync -a --delete $exclude --link-dest=$ROOT/current/ $ROOT/current/ $ROOT/old.1/
+rsync -a --delete $exclude                            $source/       ${ROOT}/current/
+
 date > $ROOT/current/backed_up
