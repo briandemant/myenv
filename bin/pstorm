@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [[ "$1" =~ ^/.* ]]; then
+   ROOT=$1
+else 
+	cd $(pwd)/$1
+	ROOT=$(pwd)
+fi
+ 
+$(dirname $0)/phpstorm $ROOT &>/dev/null

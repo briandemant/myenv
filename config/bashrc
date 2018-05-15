@@ -1,7 +1,4 @@
 #!/usr/bin/env bash 
-[[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
-[[ -e /usr/share/doc/cdargs/examples/cdargs-bash.sh ]] && source /usr/share/doc/cdargs/examples/cdargs-bash.sh
-
 alias ls="ls -FG"
 alias ll="ls -l"
 alias la="ls -lA"
@@ -56,7 +53,8 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 		DC=$UC
 	fi
 
-	PS1="$HC\\h $DC\\w $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
+
+	PS1="$HC\\h $DC\\w \$(current_ctx) $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
 
 	export PROMPT_COMMAND='history -a;history -r'
 
@@ -72,16 +70,14 @@ export GIT_AUTHOR_NAME="Brian Demant"
 export GIT_AUTHOR_EMAIL="brian.demant@gmail.com"
 export PATH=~/.brde/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:$PATH
 source ~/.brde/config/std_functions
+source ~/.brde/config/kube_functions
 # source ~/.brde/config/adserving_functions
-source ~/.brde/config/completions
 
-program_exists () {
-	type "$1" &> /dev/null ;
-}
-
-
-if program_exists go; then
-	export GOROOT=`go env GOROOT`
-fi
+# add all completins .. see ~/.brde/config/std_functions
+completions
+ 
+# if program_exists go; then
+# 	export GOROOT=`go env GOROOT`
+# fi
 
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history

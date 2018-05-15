@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 here=$(cd $(dirname $0);pwd)
 if [[ -e /Applications ]]; then
-	$here/unison-osx $*
+	$here/unison-osx -ui text $*
 else
 	$here/unison-linux $*
 fi

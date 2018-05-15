@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# gcloud completions
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc'
+
+current_ctx() {
+    json=$(kubectl config view -o=json |jq '.contexts')
+    ktx=$(grep current-context ~/.kube/config | cut -c18-)
+    kns=$(echo $json|jq -r '.[] | select(.name | . and contains("'$ktx'")) | .context.namespace')
+
+    if [[ $kns == 'kube-system' ]] || [[ $kns == 'kube-public' ]]; then
+        kns="$YELLOW$kns"
+    fi
+
+    case "$ktx" in
+        *prod*) echo -en "${RED}⎈ $ktx/$kns" ;;
+        *dev*)  echo -en "${CYAN}⎈ $ktx/$kns" ;;
+        *)      echo -en "${PURPLE}⎈ $ktx/$kns" ;;
+    esac 
+}
+
+alias k=kubectl
+complete -F __start_kubectl k
+
+
+alias kpods="kubectl get po"
+alias kinspect="kubectl describe"
+function krun() { name=$1; shift; image=$1; shift; kubectl run -it --generator=run-pod/v1 --image $image $name -- $@; }
+function klogs() { kubectl logs $*;}
+function kexec(){ pod=$1; shift; kubectl exec -it $pod -- $@; }
+function kenter(){ pod=$1; shift; kubectl exec -it $pod -- ash; }
+
+ki_nodes_sched() {
+	# show only schedulable nodes
+	kubectl get no -o json | jq -r '.items[] | select(.spec.unschedulable!=true) | [.metadata.name,.spec.externalID] | @tsv'
+	#kubectl get no -o go-template='{{range .items}}{{if not .spec.unschedulable}}{{.metadata.name}} {{.spec.externalID}}{{"\n"}}{{end}}{{end}}'
+	#kubectl get no -o jsonpath="{range.items}{.metadata.name}:{end}" | tr ":" "\n"
+}
+
+ki_pods_by_node() {
+	# pods by node
+	kubectl get po -o wide --sort-by=.spec.nodeName
+	#kubectl get po -o json | jq -r '.items | sort_by(.spec.nodeName)[] | [.spec.nodeName,.metadata.name] | @tsv'
+}
+
+ki_svc_ports() {
+	kubectl get --all-namespaces svc -o json | jq -r '.items[] | select(.spec.ports)|select(.spec.ports[].nodePort) | [.metadata.name,([.spec.ports[].nodePort | tostring ] | join("|"))] | @tsv'
+}
+
+ki() {
+	 info=$1
+	 shift 
+	 ki_$info "$@"
+}
+
+_kube_pods() {
+	local cur prev
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case "$prev" in
+		ktx)
+			COMPREPLY=( $(compgen -W "$(kubectl get pods -o json | jq -r '.items[]|.metadata.name')" -- $cur) )
+			return 0
+			;;
+		*)
+			COMPREPLY=( $(compgen -W "$(kubectl get pods -o json | jq -r '.items[]|.metadata.name')" -- $cur) )
+			return 0
+			;;
+	esac
+}
+
+_kube_namespaces() {
+	local cur prev
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case "$prev" in
+		ktx)
+			COMPREPLY=( $(compgen -W "$(kubectl get ns -o json | jq -r '.items[]|.metadata.name')" -- $cur) )
+			return 0
+			;;
+		*)
+			COMPREPLY=( $(compgen -W "$(kubectl get ns -o json | jq -r '.items[]|.metadata.name')" -- $cur) )
+			return 0
+			;;
+	esac
+}
+
+_kube_contexts() {
+	local cur prev
+	cur=${COMP_WORDS[COMP_CWORD]}
+	prev="${COMP_WORDS[COMP_CWORD-1]}"
+	case "$prev" in
+		ktx)
+			COMPREPLY=( $(compgen -W "$(kubectl config view -o json | jq -r '.contexts[] | .name')" -- $cur) )
+			return 0
+			;; 
+	esac
+}
+
+complete -F _kube_contexts ktx
+complete -F _kube_namespaces kns
+complete -F _kube_pods kenter
+complete -F _kube_pods kexec
+complete -F _kube_pods klogs

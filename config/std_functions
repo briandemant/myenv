@@ -13,6 +13,40 @@ ssh-copy-key() {
 # visual studio code
 function code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*; }
 
+program_exists () { type "$1" &> /dev/null ; }
+
+alias kpods="kubectl get po"
+alias kinspect="kubectl describe"
+function krun() { name=$1; shift; image=$1; shift; kubectl run -it --generator=run-pod/v1 --image $image $name -- $@; }
+function klogs() { kubectl logs $*;}
+function kexec(){ pod=$1; shift; kubectl exec -it $pod -- $@; }
+function kenter(){ pod=$1; shift; kubectl exec -it $pod -- ash; }
+
+ki_nodes_sched() {
+	# show only schedulable nodes
+	kubectl get no -o json | jq -r '.items[] | select(.spec.unschedulable!=true) | [.metadata.name,.spec.externalID] | @tsv'
+	#kubectl get no -o go-template='{{range .items}}{{if not .spec.unschedulable}}{{.metadata.name}} {{.spec.externalID}}{{"\n"}}{{end}}{{end}}'
+	#kubectl get no -o jsonpath="{range.items}{.metadata.name}:{end}" | tr ":" "\n"
+}
+
+ki_pods_by_node() {
+	# pods by node
+	kubectl get po -o wide --sort-by=.spec.nodeName
+	#kubectl get po -o json | jq -r '.items | sort_by(.spec.nodeName)[] | [.spec.nodeName,.metadata.name] | @tsv'
+}
+
+ki_svc_ports() {
+	kubectl get --all-namespaces svc -o json | jq -r '.items[] | select(.spec.ports)|select(.spec.ports[].nodePort) | [.metadata.name,([.spec.ports[].nodePort | tostring ] | join("|"))] | @tsv'
+}
+
+ki() {
+	 info=$1
+	 shift 
+	 ki_$info "$@"
+}
+
+
+
 install-myenv() {
 	if [ "$2" == "" ]; then
 		user='web'
@@ -33,4 +67,26 @@ fi
 INSTALL
 }
 
+completions(){
+	source ~/.brde/config/completions
+	[[ -e /usr/local/etc/bash_completion ]] && source /usr/local/etc/bash_completion
+}
 
+command_not_found_handle() {
+  # Do not run within a pipe
+  if test ! -t 1; then
+    >&2 echo "command not found: $1"
+    return 127
+  fi
+  if which npx > /dev/null; then
+    echo "$1 not found. Trying with npx..." >&2
+  else
+    return 127
+  fi
+  if ! [[ $1 =~ @ ]]; then
+    npx --no-install "$@"
+  else
+    npx "$@"
+  fi
+  return $?
+}
