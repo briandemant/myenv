@@ -6,5 +6,11 @@ else
 	cd $(pwd)/$1
 	ROOT=$(pwd)
 fi
- 
-$(dirname $0)/phpstorm $ROOT &>/dev/null
+
+if [[ -e $(dirname $0)/phpstorm ]]; then
+	$(dirname $0)/phpstorm $ROOT &>/dev/null
+elif [[ -e /usr/local/bin/phpstorm ]]; then
+	/usr/local/bin/phpstorm $ROOT &>/dev/null
+elif [[ -e /usr/local/bin/pstorm ]]; then
+	/usr/local/bin/pstorm $ROOT &>/dev/null
+fi

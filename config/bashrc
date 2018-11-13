@@ -18,11 +18,17 @@ source ~/.brde/config/colors
 
 [[ -e ~/.brde/local/bashrc ]] && source ~/.brde/local/bashrc
 
+if [ -e /usr/local/opt/nvm/nvm.sh ]; then
+	export NVM_DIR="$HOME/.nvm"
+	. "/usr/local/opt/nvm/nvm.sh"
+fi
+
+
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	parse_git_branch() {
 		git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 	}
-
+	
 	if which git-dirty >/dev/null; then
 		git_dirty() {
 			git dirty -i
@@ -34,7 +40,7 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 			fi
 		}
 	fi
-
+	
 	export TITLE="\[\033]0;\h: \w\\007\]"
 
 	# server_type=$(hostname -s|egrep -o '^....')
@@ -52,7 +58,6 @@ if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]; then
 	else
 		DC=$UC
 	fi
-
 
 	PS1="$HC\\h $DC\\w \$(current_ctx) $PS_GREY\$(parse_git_branch)$PS_YELLOW\$(git_dirty)$PS_GREY$PS_RESET\n> "
 
@@ -72,10 +77,8 @@ export PATH=~/.brde/bin:/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:
 source ~/.brde/config/std_functions
 source ~/.brde/config/kube_functions
 # source ~/.brde/config/adserving_functions
-
 # add all completins .. see ~/.brde/config/std_functions
 completions
- 
 # if program_exists go; then
 # 	export GOROOT=`go env GOROOT`
 # fi

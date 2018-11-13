@@ -6,7 +6,7 @@ source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.
 current_ctx() {
     json=$(kubectl config view -o=json |jq '.contexts')
     ktx=$(grep current-context ~/.kube/config | cut -c18-)
-    kns=$(echo $json|jq -r '.[] | select(.name | . and contains("'$ktx'")) | .context.namespace')
+    kns=$(echo $json|jq -r '.[] | select(.name == ("'$ktx'")) | .context.namespace')
 
     if [[ $kns == 'kube-system' ]] || [[ $kns == 'kube-public' ]]; then
         kns="$YELLOW$kns"
@@ -22,13 +22,21 @@ current_ctx() {
 alias k=kubectl
 complete -F __start_kubectl k
 
-
-alias kpods="kubectl get po"
-alias kinspect="kubectl describe"
+alias kp="kubectl get po"
+alias kd="kubectl describe po"
 function krun() { name=$1; shift; image=$1; shift; kubectl run -it --generator=run-pod/v1 --image $image $name -- $@; }
 function klogs() { kubectl logs $*;}
 function kexec(){ pod=$1; shift; kubectl exec -it $pod -- $@; }
-function kenter(){ pod=$1; shift; kubectl exec -it $pod -- ash; }
+function kenter(){  
+	if kubectl exec  $@ which bash &>/dev/null;then
+		kubectl exec -it $@ -- bash; 
+	elif kubectl exec $@ which ash &>/dev/null;then
+		kubectl exec -it $@ -- ash; 
+	else 
+		kubectl exec -it $@ -- sh; 
+	fi
+}
+function kforward(){ pod=$1; shift; kubectl port-forward $pod -- $@; }
 
 ki_nodes_sched() {
 	# show only schedulable nodes
@@ -102,3 +110,4 @@ complete -F _kube_namespaces kns
 complete -F _kube_pods kenter
 complete -F _kube_pods kexec
 complete -F _kube_pods klogs
+complete -F _kube_pods kforward

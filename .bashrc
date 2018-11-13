@@ -5,6 +5,11 @@ fi
 
 export PATH="~/.brde/bin/:~/.brde/ruby-enterprise/bin:/bin:/usr/bin:${PATH}"
 
+if [ -e /usr/local/opt/nvm/nvm.sh ]; then
+	export NVM_DIR="$HOME/.nvm"
+	. "/usr/local/opt/nvm/nvm.sh"
+fi
+
 alias "l"="ls --color"
 alias "ls"="ls --color"
 alias "ll"="ls -lh --color"
@@ -32,22 +37,6 @@ alias mysqladmin='MYSQL_HISTFILE=~/.brde/.mysql_history mysqladmin --defaults-fi
 alias mysqldump='MYSQL_HISTFILE=~/.brde/.mysql_history mysqldump --defaults-file=~/.brde/.mydump.cnf'
 
 
-ff() {
-	if [[ "$1" == "" ]]; then
-		cd /home/web/vhosts/
-	else
-		cd /home/web/vhosts/$1*brde
-	fi
-	pwd
-}
-
-fm() {
-	root=$(pwd|egrep -o '^/home/web/vhosts/[^/]+/')
-	[[ -z $root ]] && root=$(pwd)/
-	cd ${root}modules/$1*/
-	pwd
-}
-
 
 ec() { 
 	vim ~/.brde
@@ -59,6 +48,4 @@ ec() {
 reload() { 
 	source ~/.bashrc_brde 
 }
-
-# replace svn command
-source ~/.brde/.subversion
+ 

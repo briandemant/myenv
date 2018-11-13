@@ -8,7 +8,7 @@
 	cia = commit -a
 	type = cat-file -t
 	dump = cat-file -p
-	dflog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S'
+	dflog = "!f() { git log --color --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' $@| emojify;}; f"
 	dflog2 = log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=iso
 	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
@@ -17,8 +17,9 @@
 	name = Brian Demant
 	email = brian.demant@gmail.com
 [color]
-	branch = auto
-	diff = auto
+	log = true
+	branch = true
+	diff = true
 	interactive = auto
 	status = auto
 [core]
