@@ -31,7 +31,7 @@ xkb_symbols "basic" {
 //    key <AE11> {	[     minus,	underscore	]	};
 //    key <AE12> {	[     equal,	plus		]	};
 
-    key <AD01> {	[	  q,	Q 		]	};
+    key <AD01> {	[	  q,	Q 	,KP_Prior	]	};
     key <AD02> {	[	  w,	W		]	};
     key <AD03> {	[	  e,	E		]	};
     key <AD04> {	[	  r,	R		]	};
@@ -58,9 +58,9 @@ xkb_symbols "basic" {
     key <BKSL> {	[ backslash,         bar,at	]	};
 
     key <LSGT> {	[  asciitilde,   asterisk ] };
-    key <AB01> {	[	  z,	Z 		]	};
-    key <AB02> {	[	  x,	X		]	};
-    key <AB03> {	[	  c,	C		]	};
+    key <AB01> {	[	  z,	Z 	,KP_Next	]	};
+    key <AB02> {	[	  x,	X	,KP_Home	]	};
+    key <AB03> {	[	  c,	C	,KP_End	]	};
     key <AB04> {	[	  v,	V	,U1F600,U1F615	]	};
     key <AB05> {	[	  b,	B		]	};
     key <AB06> {	[	  n,	N		]	};
