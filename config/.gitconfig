@@ -25,7 +25,7 @@
 [core]
 	editor = vim
 	pager = less -r
-	excludesfile = /Users/briandemant/.gitignore_global
+	excludesfile = /Users/briandemant/.brde/config/.gitignore_global
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -38,3 +38,5 @@
 	default = current
 [url "ssh://git@heroku.com/"]
 	insteadOf = https://git.heroku.com/
+[init]
+	defaultBranch = main

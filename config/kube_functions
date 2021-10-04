@@ -24,10 +24,11 @@ complete -F __start_kubectl k
 
 alias kp="kubectl get po"
 alias kd="kubectl describe po"
+
 function krun() { name=$1; shift; image=$1; shift; kubectl run -it --generator=run-pod/v1 --image $image $name -- $@; }
 function klogs() { kubectl logs $*;}
-function kexec(){ pod=$1; shift; kubectl exec -it $pod -- $@; }
-function kenter(){  
+function kexec() { pod=$1; shift; kubectl exec -it $pod -- $@; }
+function kenter() {  
 	if kubectl exec  $@ which bash &>/dev/null;then
 		kubectl exec -it $@ -- bash; 
 	elif kubectl exec $@ which ash &>/dev/null;then

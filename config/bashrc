@@ -10,6 +10,9 @@ alias mx="chmod +x"
 alias tree="tree -l -C -x --dirsfirst"
 alias git="HOME=~/.brde/config/ git"
 
+alias python=python3
+alias pip=pip3
+
 export LC_CTYPE="da_DK.UTF-8"
 export LC_WHOAMI=brde
 export EDITOR=vim
@@ -82,5 +85,7 @@ completions
 # if program_exists go; then
 # 	export GOROOT=`go env GOROOT`
 # fi
-
+alias gg=~/Code/devbox/guloggratis/bin/roberto
+alias helm=helm29
+source ~/.brde/bin/z.sh
 [[ ! -e ~/.brde/local/bash_history ]] && touch ~/.brde/local/bash_history
