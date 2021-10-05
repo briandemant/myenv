@@ -1,4 +1,7 @@
 https://www.ptmr.io/blog/custom-keyboard-layout-for-coding-on-ubuntu-linux
+ihttps://medium.com/@damko/a-simple-humble-but-comprehensive-guide-to-xkb-for-linux-6f1ad5e13450
+
+
 setxkbmap brde
 setxkbmap us
 setxkbmap dk
